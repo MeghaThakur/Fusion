@@ -7,8 +7,52 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src='https://cdn.jsdelivr.net/gh/naptha/tesseract.js@v1.0.14/dist/tesseract.min.js'/>
+    <!-- The polyfills js is generated during the build process -->
+  <script src="build/polyfills.js"></script>
+
+  <script src="build/vendor.js"></script>
+
+  <!-- The bundle js is generated during the build process -->
+  <script src="build/main.js"></script>
+
+<!--   From here  -->
+  <link rel="stylesheet" type="text/css" href="css/imgareaselect-default.css" />
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="scripts/jquery.imgareaselect.pack.js"></script>
+
+  <!-- till here -->
+  <script type="text/javascript">
+  $(document).ready(function () {
+    $('img#photo').imgAreaSelect({
+
+        handles: true,
+        onSelectEnd:  function (img, selection) {
+            /*alert('width: ' + selection.width + '; height: ' + selection.height+'; x1 :'+selection.x1);*/
+  alert('reached here !!!')    
+  var canvas = document.createElement("canvas");
+  canvas.width = selection.width;
+  canvas.height = selection.height;
+  canvas.getContext("2d").drawImage(img, selection.x1,selection.y1,selection.width,selection.height,0,0,canvas.width,canvas.height);
+alert('reached here !!!222')
+  var image = new Image();
+  image.src = canvas.toDataURL("image/png");
+
+
+Tesseract.recognize(image.src)
+.then(function(result){
+    console.log(result)
+    alert('Im inside this')
+})
+
+        }
+    });
+});
+  </script>
+</head>
 </head>
 <body>
   <app-root>Loading...</app-root>
+
 </body>
 </html>
